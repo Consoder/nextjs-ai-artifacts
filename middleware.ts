@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
   // IP rate limiting via Upstash Redis — active in all environments
   if (ipRatelimit) {
     try {
-      const ip = (request.headers.get('x-forwarded-for') ?? request.ip ?? '127.0.0.1').split(',')[0].trim();
+      const ip = (request.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0].trim();
       const { success, limit, reset, remaining } = await ipRatelimit.limit(`ratelimit:ip:${ip}`);
 
       if (!success) {
